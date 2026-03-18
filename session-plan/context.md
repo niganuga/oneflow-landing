@@ -74,4 +74,12 @@
 - Sitemap updated with all pages
 
 ## After Session 6: Polish & Deploy
-<!-- Pending — depends on all previous -->
+
+- Vercel Analytics and Speed Insights added to layout.tsx
+- Error boundaries: `app/error.tsx` and `app/global-error.tsx`
+- Hero refactored to Server Component (`"use client"` removed from hero-1.tsx)
+- CSP updated for Vercel Analytics/Speed Insights domains
+- Full visual QA completed (320px, 768px, 1440px + /privacy + /terms)
+- Deploy check: SHIP (0 FAILs, 5 acceptable WARNs)
+- Dependencies added: `@vercel/analytics`, `@vercel/speed-insights`
+- Ready for production deploy
