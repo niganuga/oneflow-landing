@@ -102,7 +102,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 feat: infrastructure fixes — metadata, env validation, CSP, robots.txt, touch targets
 ```
 
-## Add to context.md
+## After This Session
+
+Save build summary to `outputs/session-1-output.md`.
+
+### Add to context.md
 ```markdown
 ## After Session 1: Infrastructure & Fixes
 - Metadata set in layout.tsx: "One Flow — Run Lean. Win Time. Stay a Team of One."

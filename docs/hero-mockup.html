@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>One Flow — Hero Mockup (Shader Style)</title>
+
+  <!-- DM Sans from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Brand Tokens ── */
+    :root {
+      --bg:      #0c1218;
+      --bg2:     #111e28;
+      --accent:  #3ee8c8;
+      --accent2: #0fa882;
+      --text:    #e2f0ec;
+      --muted:   #6a9888;
+      --border:  #1e3a50;
+    }
+
+    /* ── Zalando Sans Expanded ── */
+    @font-face {
+      font-family: "Zalando Sans Expanded";
+      src: url("../public/fonts/ZalandoSansExpanded-VariableFont_wght.ttf") format("truetype");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes navFade {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-nav    { animation: navFade 0.4s ease-out both; }
+    .animate-fade-1 { animation: fadeUp 0.5s ease-out both; animation-delay: 0.22s; }
+    .animate-fade-2 { animation: fadeUp 0.55s ease-out both; animation-delay: 0.34s; }
+    .animate-fade-3 { animation: fadeUp 0.5s ease-out both; animation-delay: 0.46s; }
+    .animate-fade-4 { animation: fadeUp 0.5s ease-out both; animation-delay: 0.58s; }
+    .animate-fade-5 { animation: fadeUp 0.5s ease-out both; animation-delay: 0.70s; }
+
+    /* ── Mesh gradient animation (CSS approximation of WebGL shader) ── */
+    @keyframes meshMove {
+      0%   { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+      25%  { transform: translate(5%, -3%) rotate(90deg) scale(1.1); }
+      50%  { transform: translate(-3%, 5%) rotate(180deg) scale(1); }
+      75%  { transform: translate(3%, -5%) rotate(270deg) scale(1.05); }
+      100% { transform: translate(0%, 0%) rotate(360deg) scale(1); }
+    }
+
+    @keyframes meshMove2 {
+      0%   { transform: translate(0%, 0%) rotate(0deg) scale(1.05); }
+      25%  { transform: translate(-4%, 4%) rotate(-90deg) scale(1); }
+      50%  { transform: translate(4%, -2%) rotate(-180deg) scale(1.1); }
+      75%  { transform: translate(-2%, 3%) rotate(-270deg) scale(1); }
+      100% { transform: translate(0%, 0%) rotate(-360deg) scale(1.05); }
+    }
+
+    @keyframes meshMove3 {
+      0%   { transform: translate(0%, 0%) scale(1); }
+      33%  { transform: translate(6%, 4%) scale(1.15); }
+      66%  { transform: translate(-4%, -3%) scale(0.95); }
+      100% { transform: translate(0%, 0%) scale(1); }
+    }
+
+    /* ── Hero section ── */
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 100svh;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* ── Shader background ── */
+    .hero__shader {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero__shader-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      will-change: transform;
+    }
+
+    /* Blob 1 — large teal, top-center */
+    .hero__shader-blob--1 {
+      width: 60vw;
+      height: 60vw;
+      max-width: 800px;
+      max-height: 800px;
+      top: -20%;
+      left: 20%;
+      background: radial-gradient(circle, #18c4a0 0%, #0fa882 50%, transparent 70%);
+      opacity: 0.35;
+      animation: meshMove 20s ease-in-out infinite;
+    }
+
+    /* Blob 2 — darker teal, bottom-right */
+    .hero__shader-blob--2 {
+      width: 50vw;
+      height: 50vw;
+      max-width: 700px;
+      max-height: 700px;
+      bottom: -15%;
+      right: -10%;
+      background: radial-gradient(circle, #0fa882 0%, #0c4a3e 50%, transparent 70%);
+      opacity: 0.30;
+      animation: meshMove2 25s ease-in-out infinite;
+    }
+
+    /* Blob 3 — subtle mint, center-left */
+    .hero__shader-blob--3 {
+      width: 40vw;
+      height: 40vw;
+      max-width: 500px;
+      max-height: 500px;
+      top: 30%;
+      left: -10%;
+      background: radial-gradient(circle, #18c4a0 0%, #111e28 60%, transparent 70%);
+      opacity: 0.20;
+      animation: meshMove3 18s ease-in-out infinite;
+    }
+
+    /* Blob 4 — warm accent, top-right */
+    .hero__shader-blob--4 {
+      width: 35vw;
+      height: 35vw;
+      max-width: 450px;
+      max-height: 450px;
+      top: -5%;
+      right: 15%;
+      background: radial-gradient(circle, #1e6b5a 0%, #0c1218 60%, transparent 70%);
+      opacity: 0.25;
+      animation: meshMove2 22s ease-in-out infinite reverse;
+    }
+
+    /* Veil — darkens the shader for text readability */
+    .hero__veil {
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 18, 24, 0.35);
+      pointer-events: none;
+    }
+
+    /* ── Horizontal rules ── */
+    .hero__rule {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero__rule--top    { top: 72px; }
+    .hero__rule--bottom { bottom: 0; }
+
+    /* ── Nav ── */
+    .nav {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      padding: 0 24px;
+    }
+
+    @media (min-width: 768px)  { .nav { padding: 0 40px; } }
+    @media (min-width: 1024px) { .nav { padding: 0 64px; } }
+
+    .nav__logo {
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav__links {
+      display: none;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    @media (min-width: 768px) { .nav__links { display: flex; } }
+
+    .nav__links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav__links a:hover { color: var(--accent); }
+
+    .nav__cta { display: none; }
+    @media (min-width: 768px) { .nav__cta { display: block; } }
+
+    .nav__cta a {
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 9999px;
+      background: var(--accent);
+      color: var(--bg);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav__cta a:hover { background: var(--accent2); }
+
+    .nav__mobile-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) { .nav__mobile-toggle { display: none; } }
+    .nav__mobile-toggle svg { width: 20px; height: 20px; }
+
+    /* ── Hero content ── */
+    .hero__content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 24px 80px;
+      text-align: center;
+    }
+
+    @media (min-width: 768px)  { .hero__content { padding: 64px 40px 80px; } }
+    @media (min-width: 1024px) { .hero__content { padding: 64px 64px 80px; } }
+
+    .hero__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) { .hero__inner { gap: 32px; } }
+
+    /* ── Badge ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border: 0.5px solid var(--border);
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(12, 18, 24, 0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    .badge__dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ── Headline ── */
+    .headline {
+      font-family: "Zalando Sans Expanded", system-ui, sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      color: var(--text);
+      max-width: 768px;
+      text-wrap: balance;
+      font-size: 36px;
+    }
+
+    @media (min-width: 640px)  { .headline { font-size: 48px; } }
+    @media (min-width: 768px)  { .headline { font-size: 60px; } }
+    @media (min-width: 1024px) { .headline { font-size: 72px; } }
+
+    .headline .accent { color: var(--accent); }
+
+    /* ── Subheadline ── */
+    .subheadline {
+      max-width: 560px;
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--muted);
+      text-wrap: balance;
+    }
+
+    @media (min-width: 640px) { .subheadline { font-size: 19px; } }
+
+    /* ── Email capture form ── */
+    .email-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 384px;
+    }
+
+    @media (min-width: 640px) {
+      .email-form {
+        flex-direction: row;
+        max-width: 448px;
+      }
+    }
+
+    .email-form__input {
+      flex: 1;
+      height: 44px;
+      padding: 0 16px;
+      border: 0.5px solid var(--border);
+      border-radius: 9999px;
+      background: rgba(17, 30, 40, 0.7);
+      backdrop-filter: blur(8px);
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .email-form__input::placeholder { color: var(--muted); }
+
+    .email-form__input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(24, 196, 160, 0.15);
+    }
+
+    .email-form__button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 44px;
+      padding: 0 24px;
+      border: none;
+      border-radius: 9999px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .email-form__button:hover { background: var(--accent2); }
+    .email-form__button svg { width: 14px; height: 14px; }
+
+    /* ── Reassurance ── */
+    .reassurance {
+      margin-top: -8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero">
+    <!-- Background: animated mesh gradient (CSS approximation) -->
+    <div class="hero__shader" aria-hidden="true">
+      <div class="hero__shader-blob hero__shader-blob--1"></div>
+      <div class="hero__shader-blob hero__shader-blob--2"></div>
+      <div class="hero__shader-blob hero__shader-blob--3"></div>
+      <div class="hero__shader-blob hero__shader-blob--4"></div>
+      <div class="hero__veil"></div>
+    </div>
+
+    <div class="hero__rule hero__rule--top" aria-hidden="true"></div>
+    <div class="hero__rule hero__rule--bottom" aria-hidden="true"></div>
+
+    <!-- Navigation -->
+    <header class="nav animate-nav">
+      <a href="/" class="nav__logo">One Flow</a>
+
+      <ul class="nav__links">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+
+      <div class="nav__cta">
+        <a href="#early-access">Get Early Access</a>
+      </div>
+
+      <button class="nav__mobile-toggle" type="button" aria-label="Open menu">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- Hero content -->
+    <div class="hero__content">
+      <div class="hero__inner">
+
+        <!-- Announcement badge -->
+        <div class="animate-fade-1">
+          <span class="badge">
+            <span class="badge__dot" aria-hidden="true"></span>
+            Founding access open — built for operators who are done winging it
+          </span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="headline animate-fade-2">
+          Run Lean. Win Time.<br />Stay a Team of <span class="accent">One.</span>
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="subheadline animate-fade-3">
+          One Flow automates the operations drag that eats your day — so the
+          detailer, the print shop owner, and the solo founder can finally get
+          time back instead of buying more of it.
+        </p>
+
+        <!-- Email capture -->
+        <div class="animate-fade-4" id="early-access">
+          <form class="email-form" onsubmit="return false;">
+            <input
+              type="email"
+              class="email-form__input"
+              placeholder="your@email.com"
+              aria-label="Email address"
+              required
+            />
+            <button type="submit" class="email-form__button">
+              Start Getting Time Back
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </form>
+
+          <p class="reassurance animate-fade-5" style="margin-top: 12px; text-align: center;">
+            No credit card required. If it takes longer than a week to show value, it's not One Flow.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</body>
+</html>

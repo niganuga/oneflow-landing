@@ -101,7 +101,11 @@ Push and create PR if ready.
 feat: add analytics, error boundaries, and polish for production deploy
 ```
 
-## Add to context.md
+## After This Session
+
+Save build summary to `outputs/session-6-output.md`.
+
+### Add to context.md
 ```markdown
 ## After Session 6: Polish & Deploy
 - Vercel Analytics and Speed Insights added

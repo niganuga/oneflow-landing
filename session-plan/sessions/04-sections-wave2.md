@@ -82,7 +82,11 @@ Update `app/page.tsx` with full page order:
 feat: add Social Proof, CTA, and Footer sections — complete page
 ```
 
-## Add to context.md
+## After This Session
+
+Save build summary to `outputs/session-4-output.md`.
+
+### Add to context.md
 ```markdown
 ## After Session 4: Content Sections (Wave 2)
 - Social Proof at `components/sections/SocialProof.tsx`

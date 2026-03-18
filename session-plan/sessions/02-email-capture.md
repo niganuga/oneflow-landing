@@ -58,7 +58,11 @@ Add `RESEND_AUDIENCE_ID` to:
 feat: wire email capture to Resend waitlist
 ```
 
-## Add to context.md
+## After This Session
+
+Save build summary to `outputs/session-2-output.md`.
+
+### Add to context.md
 ```markdown
 ## After Session 2: Email Capture
 - Server Action at `app/actions/waitlist.ts` — validates email, calls Resend

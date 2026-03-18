@@ -33,19 +33,45 @@
 ---
 
 ## After Session 1: Infrastructure & Fixes
-<!-- Pending -->
+- Metadata set in layout.tsx: "One Flow — Run Lean. Win Time. Stay a Team of One."
+- Env validation: `lib/env.ts` exports typed `env` object (use instead of process.env)
+- CSP header added to vercel.json
+- robots.txt and sitemap.ts created
+- Touch targets bumped to h-11 (44px)
+- console.error added to Hero catch block (fixed in post-audit patch)
+- Zod added as dependency
 
 ## After Session 2: Email Capture
-<!-- Pending — depends on Session 1 -->
+- Server Action at `app/actions/waitlist.ts` — validates email, calls Resend
+- Hero form connected to real endpoint (replaced setTimeout stub)
+- Env vars needed: RESEND_API_KEY, RESEND_AUDIENCE_ID, NEXT_PUBLIC_SITE_URL
+- Rate limiting: basic in-memory IP-based (5 req/60s) for MVP
 
 ## After Session 3: Content Sections (Wave 1)
-<!-- Pending — depends on Session 1 -->
+
+- Products section at `components/sections/Products.tsx` — 4 product cards
+- How It Works at `components/sections/HowItWorks.tsx` — 3-step process
+- Both added to page.tsx below Hero
+- Nav links #products and #how-it-works now have targets
 
 ## After Session 4: Content Sections (Wave 2)
-<!-- Pending — depends on Sessions 2 + 3 -->
+- Social Proof at `components/sections/SocialProof.tsx` — stats + testimonials with scroll animations
+- CTA at `components/sections/CallToAction.tsx` — reuses extracted EmailCaptureForm
+- Footer at `components/sections/Footer.tsx` — Server Component, links to /privacy, /terms
+- EmailCaptureForm extracted to `components/forms/EmailCaptureForm.tsx` (real server action)
+- `hero-1.tsx` updated to import from shared form component (mock replaced)
+- Full page scroll complete: Hero → AudienceTicker → Products → How It Works → Social Proof → CTA → Footer
+- `sections/Hero.tsx` still exists but is unused — candidate for cleanup
 
 ## After Session 5: SEO & Legal
-<!-- Pending — depends on Session 4 -->
+
+- OG image: `app/opengraph-image.tsx` (auto-generated, 1200x630)
+- Twitter image: `app/twitter-image.tsx`
+- Full metadata in layout.tsx with openGraph and twitter configs
+- Privacy Policy at /privacy
+- Terms of Service at /terms
+- Legal consent link added near email form
+- Sitemap updated with all pages
 
 ## After Session 6: Polish & Deploy
 <!-- Pending — depends on all previous -->

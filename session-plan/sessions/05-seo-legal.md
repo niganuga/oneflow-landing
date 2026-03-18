@@ -90,7 +90,11 @@ Update `app/sitemap.ts` to include /privacy and /terms pages.
 feat: add OG image, SEO metadata, privacy policy, and terms of service
 ```
 
-## Add to context.md
+## After This Session
+
+Save build summary to `outputs/session-5-output.md`.
+
+### Add to context.md
 ```markdown
 ## After Session 5: SEO & Legal
 - OG image: `app/opengraph-image.tsx` (auto-generated, 1200x630)

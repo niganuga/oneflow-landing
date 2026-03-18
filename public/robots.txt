@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://oneflow.com/sitemap.xml

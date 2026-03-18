@@ -80,7 +80,11 @@ Import and render both sections below the Hero in `app/page.tsx`.
 feat: add Products and How It Works sections
 ```
 
-## Add to context.md
+## After This Session
+
+Save build summary to `outputs/session-3-output.md`.
+
+### Add to context.md
 ```markdown
 ## After Session 3: Content Sections (Wave 1)
 - Products section at `components/sections/Products.tsx` — 4 product cards
